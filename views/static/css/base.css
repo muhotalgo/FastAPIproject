@@ -1,0 +1,14 @@
+/* layout에 대한 스타일 */
+hr {
+    background: black; opacity:0.8 ;
+    height: 2px;}
+main{
+    min-height: 550px;}
+
+/* a 링크 관련 */
+a:link {color:#333;text-decoration:none;}
+a:visited {color:#333;}
+a:hover {color: #7fa1d2;text-decoration: underline;
+}
+a:active {color:#f07468;
+}
