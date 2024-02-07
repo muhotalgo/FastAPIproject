@@ -8,7 +8,7 @@ class Member(BaseModel):
     title: str
     userid: str
     regdate: datetime
-    view: int
+    views: int
     contents: str
 
     class Config:
