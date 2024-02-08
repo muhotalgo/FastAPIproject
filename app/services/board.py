@@ -24,14 +24,13 @@ class BoardService():
         return result
 
     @staticmethod
-    def select_board():
+    def select_board(cpg):
+        stnum = (cpg - 1) * 25
         with Session() as sess:
-            stmt = select(Board.bno, Board.title, Board.userid, Board.regdate, Board.views)\
-                .order_by(Board.bno.desc())\
-                .offset(0).limit(25)
+            stmt = select(Board.bno, Board.title, Board.userid, Board.regdate, Board.views) \
+                .order_by(Board.bno.desc()).offset(stnum).limit(25)
             result = sess.execute(stmt)
         return result
-
 
     @staticmethod
     def selectone_board(bno):
@@ -40,11 +39,10 @@ class BoardService():
             result = sess.execute(stmt).first()
         return result
 
-
     @staticmethod
     def update_count_board(bno):
         with Session() as sess:
-            stmt = update(Board).filter_by(bno=bno).values(views=Board.views+1)
+            stmt = update(Board).filter_by(bno=bno).values(views=Board.views + 1)
             result = sess.execute(stmt)
             sess.commit()
 
