@@ -1,19 +1,20 @@
-from fastapi import APIRouter, status
+from math import ceil
+
+from fastapi import APIRouter
+from fastapi.requests import Request
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.requests import Request
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import RedirectResponse
+from fastapi import status
 
-from app.routes.member import member_router
 from app.schemas.board import NewBoard
 from app.services.board import BoardService
-from math import ceil
 
 board_router = APIRouter()
 
-# jinja2 설정
 templates = Jinja2Templates(directory='views/templates')
-member_router.mount('/static', StaticFiles(directory='views/static'), name='static')
+board_router.mount('/static', StaticFiles(directory='views/static'), name='static')
 
 
 # 페이지 알고리즘
