@@ -44,7 +44,8 @@ def list(req: Request, cpg: int):
     bdlist, cnt = BoardService.select_board(cpg)
     allpage = ceil(cnt / 25)  # 총 페이지 수
     return templates.TemplateResponse('board/list.html',
-                                      {'request': req, 'bdlist': bdlist, 'cpg': cpg, 'stpg': stpg, 'allpage': allpage})
+                                      {'request': req, 'bdlist': bdlist, 'cpg': cpg,
+                                       'stpg': stpg, 'allpage': allpage, 'basesurl': '/border/list/'})
 
 
 @board_router.get('/list/{ftype}/{fkey}/{cpg}', response_class=HTMLResponse)
@@ -54,7 +55,8 @@ def find(req: Request, ftype: str, fkey: str, cpg: int):
     allpage = ceil(cnt / 25)
     return templates.TemplateResponse('board/list.html',
                                       {'request': req, 'bdlist': bdlist
-                                          , 'cpg': cpg, 'stpg': stpg, 'allpage': allpage})
+                                        , 'cpg': cpg, 'stpg': stpg, 'allpage': allpage,
+                                       'basesurl': f'/border/list/{ftype}/{fkey}/'})
 
 
 @board_router.get('/write', response_class=HTMLResponse)

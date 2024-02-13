@@ -95,7 +95,7 @@
             {% else %}
         <li class="page-item">
             {% endif %}
-            <a href="/board/list/{{ cpg - 1 }}" class="page-link">이전</a>
+            <a href="{{ baseurl }}{{ cpg - 1 }}" class="page-link">이전</a>
         </li>
 
         {% for idx in range(stpg, stpg + 10) %}
@@ -105,7 +105,7 @@
             {% else %}
         <li class="page-item">
             {% endif %}
-            <a href="/board/list/{{ idx }}" class="page-link">{{ idx }}</a>
+            <a href="{{ baseurl }}{{ idx }}" class="page-link">{{ idx }}</a>
         </li>
         {% endif %}
         {% endfor %}
@@ -116,7 +116,7 @@
             {% else %}
         <li class="page-item">
             {% endif %}
-            <a href="/board/list/{{ cpg + 1 }}" class="page-link">다음</a>
+            <a href="{{ baseurl }}{{ cpg + 1 }}" class="page-link">다음</a>
         </li>
     </ul>
 </main>
