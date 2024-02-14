@@ -18,7 +18,7 @@ async def lifespan(app: FastAPI):
     db_startup()
 
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 # jinja2 설정
 templates = Jinja2Templates(directory='views/templates')

@@ -3,8 +3,8 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class Board(BaseModel):
-    bno: int
+class Gallery(BaseModel):
+    gno: int
     title: str
     userid: str
     regdate: datetime
@@ -15,9 +15,11 @@ class Board(BaseModel):
         from_attributes = True
 
 
+class GalAttach(BaseModel):
+    gano: int
+    gno: int
+    fname: str
+    fsize: int
 
-class NewBoard(BaseModel):
-    title: str
-    userid: str
-    contents: str
-    response: str
+    class Config:
+        from_attributes = True
