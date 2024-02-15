@@ -1,14 +1,13 @@
-from math import ceil
-
 from fastapi import APIRouter, Form, UploadFile, File
+from fastapi import status
 from fastapi.requests import Request
 from fastapi.responses import HTMLResponse
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import RedirectResponse
-from fastapi import status
 
-from app.schemas.board import NewBoard
+from app.schemas.gallery import NewGallery
+from app.services.gallery import GalleryService
 
 # from app.schemas.gallery import NewGallery
 # from app.services.gallery import GalleryService
@@ -53,15 +52,9 @@ async def writeok(title: str = Form(), userid: str = Form(), contents: str = For
     # print(title, userid, contents)
     # print(attach.filename, attach.content_type, attach.size)
 
-    UPLOAD_DIR = r'C:\Java\nginx-1.25.3\html\cdn'
-    fname = UPLOAD_DIR + r'\\20240214' + attach.filename
-
-    # 비동기 처리를 위해 함수에 await 지시자 추가
-    # 이럴 경우 함수 정의부분에 async 라는 지시자 추가 필요!
-    content = await attach.read()   # 업로드한 파일의 내용을 비동기로 모두 읽어옴
-
-    with open(fname, 'wb') as f:
-        f.write(content)        # 파일의 내용을 지정한 파일이름으로 저장
+    fname, fsize = await GalleryService.proccess_upload(attach)
+    gdto = NewGallery(title=title, userid=userid, contents=contents)
+    GalleryService.insert_gallery(gdto, fname, fsize)
 
     return RedirectResponse(res_url, status_code=status.HTTP_302_FOUND)
 
