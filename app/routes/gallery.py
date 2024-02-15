@@ -21,20 +21,20 @@ gallery_router.mount('/static', StaticFiles(directory='views/static'), name='sta
 @gallery_router.get('/list/{cpg}', response_class=HTMLResponse)
 def list(req: Request, cpg: int):
     # stpg = int((cpg - 1) / 10) * 10 + 1
-    # gallist, cnt = GalleryService.select_gallery(cpg)
+    galist, cnt = GalleryService.select_gallery(cpg)
     # allpage = ceil(cnt / 25)
     return templates.TemplateResponse('gallery/list.html',
-                                      {'request': req, 'gallist': None, 'cpg': cpg,
+                                      {'request': req, 'galist': galist, 'cpg': cpg,
                                        'stpg': 1, 'allpage': 1, 'basesurl': '/gallery/list/'})
 
 
 @gallery_router.get('/list/{ftype}/{fkey}/{cpg}', response_class=HTMLResponse)
 def find(req: Request, ftype: str, fkey: str, cpg: int):
     # stpg = int((cpg - 1) / 10) * 10 + 1
-    # gallist, cnt = GalleryService.find_select_gallery(ftype, '%' + fkey + '%', cpg)
+    # galist, cnt = GalleryService.find_select_gallery(ftype, '%' + fkey + '%', cpg)
     # allpage = ceil(cnt / 25)
     return templates.TemplateResponse('gallery/list.html',
-                                      {'request': req, 'gallist': None
+                                      {'request': req, 'galist': None
                                           , 'cpg': cpg, 'stpg': 1, 'allpage': 1,
                                        'basesurl': f'/border/list/{ftype}/{fkey}/'})
 
@@ -61,6 +61,6 @@ async def writeok(title: str = Form(), userid: str = Form(), contents: str = For
 
 @gallery_router.get('/view/{gno}', response_class=HTMLResponse)
 def view(req: Request, gno: str):
-    # gal = GalleryService.selectone_gallery(gno)[0]
-    # GalleryService.update_count_gallery(gno)
-    return templates.TemplateResponse('gallery/view.html', {'request': req, 'gal': None})
+    gal = GalleryService.selectone_gallery(gno)
+    GalleryService.update_count_gallery(gno)
+    return templates.TemplateResponse('gallery/view.html', {'request': req, 'g': gal[0], 'ga': gal[1]})

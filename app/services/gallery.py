@@ -54,16 +54,19 @@ class GalleryService():
 
         return nfname, fsize
 
-    # @staticmethod
-    # def select_gallery(cpg):
-    #     stnum = (cpg - 1) * 25
-    #     with Session() as sess:
-    #         cnt = sess.query(func.count(Gallery.bno)).scalar()  # 총 게시글 수
-    #
-    #         stmt = select(Gallery.bno, Gallery.title, Gallery.userid, Gallery.regdate, Gallery.views) \
-    #             .order_by(Gallery.bno.desc()).offset(stnum).limit(25)
-    #         result = sess.execute(stmt)
-    #     return result, cnt
+    @staticmethod
+    def select_gallery(cpg):
+        stnum = (cpg - 1) * 25
+        with Session() as sess:
+            cnt = sess.query(func.count(Gallery.gno)).scalar()  # 총 게시글 수
+
+            stmt = select(Gallery.gno, Gallery.title, Gallery.userid,
+                          Gallery.regdate, Gallery.views, GalAttach.fname) \
+                .join_from(Gallery, GalAttach) \
+                .order_by(Gallery.gno.desc()).offset(stnum).limit(25)
+            result = sess.execute(stmt)
+
+        return result, cnt
 
     # @staticmethod
     # def find_select_gallery(ftype, fkey, cpg):
@@ -89,22 +92,25 @@ class GalleryService():
     #
     #     return result, cnt
 
-    # @staticmethod
-    # def selectone_gallery(bno):
-    #     with Session() as sess:
-    #         stmt = select(Gallery).filter_by(bno=bno)
-    #         result = sess.execute(stmt).first()
-    #     return result
-    #
-    # @staticmethod
-    # def update_count_gallery(bno):
-    #     with Session() as sess:
-    #         stmt = update(Gallery).filter_by(bno=bno).values(views=Gallery.views + 1)
-    #         result = sess.execute(stmt)
-    #         sess.commit()
-    #
-    #     return result
-    #
+    @staticmethod
+    def selectone_gallery(gno):
+        with Session() as sess:
+            stmt = select(Gallery, GalAttach)\
+                .join_from(Gallery, GalAttach)\
+                .filter_by(gno=gno)
+            result = sess.execute(stmt).first()
+
+        return result
+
+    @staticmethod
+    def update_count_gallery(gno):
+        with Session() as sess:
+            stmt = update(Gallery).filter_by(gno=gno).values(views=Gallery.views + 1)
+            result = sess.execute(stmt)
+            sess.commit()
+
+        return result
+
     # @staticmethod
     # def check_captcha(gdto):
     #     data = gdto.model_dump()  # 클라이언트가 보낸 객체를 dict로 변환

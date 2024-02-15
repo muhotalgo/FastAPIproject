@@ -61,24 +61,25 @@
                     </div>
                 </div>
             </td>
-            <td colspan="2"><a href="/board/write" class="btn btn-dark text-white">글쓰기</a></td>
+            <td colspan="2"><a href="/gallery/write" class="btn btn-dark text-white">글쓰기</a></td>
         </tr>
     </table>
 
 
     <div class="row justify-content-center">
-        {% for idx in range(1, 25) %}
-            <div class="col-10 card m-1" style="width:18rem">
-                <img src="http://localhost/cdn/pizza.png" class="card-img-top" alt="..."><!-- 이미지 -->
-
-                <div class="card-body">
-                    <h5 class="card-title">갤러리 제목</h5>
-                    <div><span>작성자</span><span>2024-002-15</span></div>
-                    <div>
-                        <span><i class="bi bi-eye"></i> 1234</span>
-                    </div>
+        {% for gal in galist %}
+        <div class="col-10 card m-1" style="width:18rem">
+            <a href="/gallery/view/{{ gal.gno }}">
+                <img src="http://localhost/cdn/{{ gal.fname }}" class="card-img-top" alt="..."><!-- 이미지 -->
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">{{ gal.title }}</h5>
+                <div><span>{{ gal.userid }}</span><span>{{ gal.regdate }}</span></div>
+                <div>
+                    <span><i class="bi bi-eye"></i> {{ gal.views }}</span>
                 </div>
             </div>
+        </div>
         {% endfor %}
     </div><!-- 갤러리 이미지 리스트 -->
 
@@ -143,10 +144,18 @@
         let ftype = document.querySelector('#ftype');
         ftype.className = `form-select ${classname}`;
         switch (findurl[3]) {
-            case 'title': ftype.selectedIndex = 0; break;
-            case 'contents': ftype.selectedIndex = 1; break;
-            case 'userid': ftype.selectedIndex = 2; break;
-            case 'titconts': ftype.selectedIndex = 3; break;
+            case 'title':
+                ftype.selectedIndex = 0;
+                break;
+            case 'contents':
+                ftype.selectedIndex = 1;
+                break;
+            case 'userid':
+                ftype.selectedIndex = 2;
+                break;
+            case 'titconts':
+                ftype.selectedIndex = 3;
+                break;
         }
     }
 </script>
