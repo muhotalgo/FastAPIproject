@@ -5,7 +5,7 @@ import requests
 from sqlalchemy import insert, select, update, func, or_
 
 from app.dbfactory import Session
-from app.models.gallery import Gallery
+from app.models.gallery import Gallery, GalAttach
 
 # 이미지 파일 저장 경로 설정
 UPLOAD_DIR = r'C:\Java\nginx-1.25.3\html\cdn'
@@ -29,13 +29,19 @@ class GalleryService():
             result = sess.execute(stmt)
             sess.commit()
 
+            data = {'fname': fname, 'fsize': fsize, 'gno': result.inserted_primary_key[0]}
+            print(result.inserted_primary_key)
+            stmt = insert(GalAttach).values(data)
+            result = sess.execute(stmt)
+            sess.commit()
+
         return result
 
     @staticmethod
     async def proccess_upload(attach):
         today = datetime.today().strftime('%Y%m%d%H%M%S')
-        nfname = f'{today}{attach.filename}'    # 파일 이름
-        fsize = attach.size     # 파일 크기
+        nfname = f'{today}{attach.filename}'  # 파일 이름
+        fsize = attach.size  # 파일 크기
         # os.path.join(A, B) => A/B (경로 생성)
         fname = os.path.join(UPLOAD_DIR, nfname)
 
