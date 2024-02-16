@@ -68,7 +68,11 @@
                     </div>
                 </div>
             </td>
-            <td colspan="2"><a href="/board/write" class="btn btn-dark text-white">글쓰기</a></td>
+            <td colspan="2">
+                {% if 'm' in request.session %}
+                <a href="/board/write" class="btn btn-dark text-white">글쓰기</a>
+                {% endif %}
+            </td>
         </tr>
         <tr>
             <th>번호</th>
