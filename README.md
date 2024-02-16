@@ -6,6 +6,7 @@
 * jinja2 template
 * pydantic_settings
 * python-multipart
+* itsdangerous
 
 ## nginx를 이용한 이미지 cdn 서버 구축
 

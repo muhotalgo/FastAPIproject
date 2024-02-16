@@ -34,6 +34,12 @@ def login(req: Request):
     return templates.TemplateResponse('login.html', {'request': req})
 
 
+@member_router.get('/logout')
+def login(req: Request):
+    req.session.clear() # 생성된 세션객체 제거
+    return RedirectResponse(url='/', status_code=status.HTTP_303_SEE_OTHER)
+
+
 @member_router.post('/login')
 def login(req: Request, userid: str = Form(), passwd: str = Form()):
     result = MemberService.check_login(userid, passwd)
