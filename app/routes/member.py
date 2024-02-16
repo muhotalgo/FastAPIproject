@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Form, status
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 
 from app.schemas.member import NewMember
 from app.services.member import MemberService
@@ -32,6 +32,18 @@ def joinok(req: Request):
 @member_router.get('/login', response_class=HTMLResponse)
 def login(req: Request):
     return templates.TemplateResponse('login.html', {'request': req})
+
+
+@member_router.post('/login')
+def login(req: Request, userid: str = Form(), passwd: str = Form()):
+    result = MemberService.check_login(userid, passwd)
+
+    if result:
+        # 세션처리 - 회원아이디를 세션에 등록
+        req.session['m'] = result.userid
+        return RedirectResponse(url='/myinfo', status_code=status.HTTP_303_SEE_OTHER)
+    else:
+        return RedirectResponse(url='/loginerror', status_code=status.HTTP_303_SEE_OTHER)
 
 
 @member_router.get('/myinfo', response_class=HTMLResponse)
