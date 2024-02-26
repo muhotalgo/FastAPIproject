@@ -17,7 +17,7 @@
 </script>
 <script type="text/javascript">
     var onloadCallback = function() {
-        grecaptcha.render('captcha', {'sitekey' : ''});
+        grecaptcha.render('captcha', {'sitekey' : '6LcX1HApAAAAAFNF-QOXN0LlKyftT3A4ZUcsJD2X'});
     };
 </script>
 {% endblock %}
@@ -32,7 +32,7 @@
         </div>
         <div class="row">
             <div class="col-auto"><label for="userid" class="col-form-label">작성자</label></div>
-            <div class="col-auto"><input type="text" name="userid" id="userid" value="abc123" class="form-control" readonly></div>
+            <div class="col-auto"><input type="text" name="userid" id="userid" value="{{ request.session['m'] }}" class="form-control" readonly></div>
         </div>
         <div class="row">
             <div class="col-auto"><label for="contents" class="col-form-label">본문</label></div>

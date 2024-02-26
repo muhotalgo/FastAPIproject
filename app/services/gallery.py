@@ -8,7 +8,8 @@ from app.dbfactory import Session
 from app.models.gallery import Gallery, GalAttach
 
 # 이미지 파일 저장 경로 설정
-UPLOAD_DIR = r'C:\Java\nginx-1.25.3\html\cdn'
+# UPLOAD_DIR = r'C:\Java\nginx-1.25.3\html\cdn'
+UPLOAD_DIR = r'/usr/share/nginx/html/cdn'
 
 
 class GalleryService():
@@ -31,6 +32,7 @@ class GalleryService():
 
             data = {'fname': fname, 'fsize': fsize, 'gno': result.inserted_primary_key[0]}
             print(result.inserted_primary_key)
+
             stmt = insert(GalAttach).values(data)
             result = sess.execute(stmt)
             sess.commit()

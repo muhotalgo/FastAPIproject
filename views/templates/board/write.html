@@ -1,23 +1,42 @@
 {% extends 'base.html' %}
 {% block style %}
 <style>
-    form {width:600px;margin:100px auto;}
+    form {
+        width: 600px;
+        margin: 100px auto;
+    }
+
     form div {
-        margin-bottom: 5px;}
+        margin-bottom: 5px;
+    }
+
     form input, form textarea {
-        padding: 5px;}
+        padding: 5px;
+    }
+
     form label {
-        width: 110px;text-align:right;}
-    form button:first-child {margin-left:135px}
-    form img {margin:-5px}
-    .dragup {vertical-align:top}
+        width: 110px;
+        text-align: right;
+    }
+
+    form button:first-child {
+        margin-left: 135px
+    }
+
+    form img {
+        margin: -5px
+    }
+
+    .dragup {
+        vertical-align: top
+    }
 </style>
 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
         async defer>
 </script>
 <script type="text/javascript">
-    var onloadCallback = function() {
-        grecaptcha.render('captcha', {'sitekey' : ''});
+    var onloadCallback = function () {
+        grecaptcha.render('captcha', {'sitekey': '6LcX1HApAAAAAFNF-QOXN0LlKyftT3A4ZUcsJD2X'});
     };
 </script>
 {% endblock %}
@@ -32,24 +51,31 @@
         </div>
         <div class="row">
             <div class="col-auto"><label for="userid" class="col-form-label">작성자</label></div>
-            <div class="col-auto"><input type="text" name="userid" id="userid" value="abc123" class="form-control" readonly></div>
+            <div class="col-auto"><input type="text" name="userid" id="userid" value="{{ request.session['m'] }}" class="form-control"
+                                         readonly></div>
         </div>
         <div class="row">
             <div class="col-auto"><label for="contents" class="col-form-label">본문</label></div>
-            <div class="col-auto"><textarea name="contents" id="contents" cols="45" rows="7" class="form-control"></textarea></div>
+            <div class="col-auto"><textarea name="contents" id="contents" cols="45" rows="7"
+                                            class="form-control"></textarea></div>
         </div>
         <div class="row">
             <div class="col-auto"><label for="captcha" class="col-form-label">자동작성방지</label></div>
-            <div class="col-auto"><div id="captcha"></div></div>
+            <div class="col-auto">
+                <div id="captcha"></div>
+            </div>
         </div>
         <div class="row">
             <div class="col-auto">
                 <button type="button" class="btn btn-primary" id="writebtn">
-                    <i class="bi bi-check-all"></i> 입력완료</button>
+                    <i class="bi bi-check-all"></i> 입력완료
+                </button>
                 <button type="button" class="btn  btn-danger">
-                    <i class="bi bi-arrow-repeat"></i> 다시입력</button>
+                    <i class="bi bi-arrow-repeat"></i> 다시입력
+                </button>
             </div>
-        </div></form>
+        </div>
+    </form>
 </main>
 {% endblock %}
 
@@ -62,7 +88,7 @@
         // 캡챠 체크 - 캡챠 응답 토큰 생성 여부 확인
         // console.log(grecaptcha.getResponse());
         // alert('잠시 대기중...');
-        if (grecaptcha.getResponse() === ''){
+        if (grecaptcha.getResponse() === '') {
             alert('자동가입방지를 확인하세요!!');
             return;
         }
@@ -77,7 +103,7 @@
         // 캡챠 응답 토큰을 jsondata에 추가
         jsondata['response'] = grecaptcha.getResponse();
 
-        fetch('http://127.0.0.1:8000/board/write', {
+        fetch('/board/write', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
